@@ -8,13 +8,12 @@ class SessionsController < ApplicationController
     password_the_user_typed = params["password"]
     password_in_the_database = @user["password"]
     If BCrypt::Password.new(password_in_the_database) == password_the_user_typed
-  
-  else 
-    flash["notice"] = "Incorrect username or password"
-    redirect_to "/sessions/new"
+      flash["notice"] = "Welcome"
+      redirect_to "/home"
+    else 
+      flash["notice"] = "Email, username, or password is unavailable. Try Again."
+      redirect_to "/sessions/new"
   end
 
   def destroy
   end
-end
-  
