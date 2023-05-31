@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by({"email" => params["email"]})
     if @user
-    
+    password_the_user_typed
   
     else 
     flash["notice"] = "Incorrect username or password"
