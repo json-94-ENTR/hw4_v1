@@ -3,22 +3,18 @@ class SessionsController < ApplicationController
   end
 
   def create
-  @user = User.find_by({"email" => params["email"]})
+  @user = User.find_by({ "email" => params["email"] })
   if @user
-    password_the_user_typed = params["password"]
-    password_in_the_database = @user["password"]
-    if BCrypt::Password.new(password_in_the_database) == password_the_user_typed
-      flash["notice"] = "Welcome!"
-      redirect_to "/home"
+    if BCrypt::Password.new(@user["password"]) == params ["password"]
+      flash["notice"] = "Welcome! You've logged in."
+      cookies["user_id"] = @user["id"]
+      redirect_to "/places"
     else 
-      flash["notice"] = "Email, username, or password is unavailable. Try Again."
+      flash["notice"] = "Unsuccessful login."
       redirect_to "/sessions/new"
     end
   else
-  flash["notice"] = "Email, username, or password is unavailable. Try Again."
+  flash["notice"] = "Unsuccessful login."
   redirect_to "/sessions/new"
-  end 
-end
-  def destroy
   end
 end
